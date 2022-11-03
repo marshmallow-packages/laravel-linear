@@ -2,10 +2,10 @@
 
 namespace LaravelLinear\Notifications;
 
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use LaravelLinear\Models\LinearToken;
-use Illuminate\Notifications\Notification;
 use LaravelLinear\Notifications\Messages\LinearIssue;
 
 class LinearChannel
@@ -71,7 +71,6 @@ class LinearChannel
                 issueId: "' . $issue_id . '"
                 title: "Issue Attachment"
                 url: "' . $path . '"
-                iconUrl: "' . $path . '"
             }){
                 success
                 attachment {
