@@ -125,10 +125,6 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
 
     public function getOrganizationData($token)
     {
-        $headers = [
-            'headers' => ['Content-Type' => 'application/json'],
-        ];
-
         $query = 'query Organization {
             organization {
                 id
@@ -137,7 +133,7 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
                     nodes {
                         id
                         name
-                        projects {
+                        projects(first: 75) {
                             nodes {
                                 id
                                 name
