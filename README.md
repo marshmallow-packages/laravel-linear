@@ -1,69 +1,102 @@
-# :package_description
+# Connect your Laravel application with Linear
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/run-tests?label=tests)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+This package will allow you to connect your Laraval application with Linear via a Linear OAuth App.
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+<img src="/resources/images/linear-preview.png">
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require laravellinear/laravel-linear
 ```
 
-You can publish and run the migrations with:
+After you've installed the package you can run the installation command. This command will publish the mandatory migrations and publish components and assets that are needed to show the beautifull Linear pages.
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+php artisan linear:install
 ```
 
-You can publish the config file with:
+### Create your Linear OAuth App
 
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
+Go to settings in you Linear account. In the `account menu`, you will find the API button. Once you click on `API` you will be able to create an `OAuth application`. Click on `Create New`.
 
-This is the contents of the published config file:
+Fill in all the field. The most importent part is the Callback URLs. You need to add you callback URL like `your-domain.test/linear/oauth2/callback`. Add the callback url for all your domains. Local, Beta and Production so it will work on all your sites.
 
-```php
-return [
-];
-```
+When you've create your app, you will get a `Client id` and a `Client secret`. Copy these, we need them later!
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
+<img src="/resources/images/linear-oauth-app.png">
 
 ## Usage
 
-```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+Using this package is super easy. We just need to make two minor updates to your application.
+
+### Update your .env file
+
+When you created your Linear OAuth Application you got a `Client id` and a `Client secret`. You need to add them to your `.env` file.
+
+```bash
+LINEAR_CLIENT_ID="____YOUR_CLIENT_ID____"
+LINEAR_CLIENT_SECRET="____YOUR_CLIENT_SECRET____"
 ```
+
+### Update your Authenticatable model
+
+First you need to be logged in to your application. This is so not everybody can change the connection to Linear.
+
+On your Authenticatable model, usually the User model, you need to implement one new method to let the package know who can manage the Linear connection. Add the method below.
+
+```php
+class User extends Authenticatable
+{
+    // ...
+    public function allowedToManagerLinearConnection(): bool
+    {
+        return in_array($this->email, [
+            'stef@marshmallow.dev',
+        ]);
+    }
+}
+```
+
+Go to `your-domain.test/linear/auth` and follow the steps to connect your Laraval application to Linear. After you've done this you will be able to connect a company, team and project.
+
+### Submit your first issue
+
+```php
+use App\Models\User;
+use LaravelLinear\Notifications\NewLinearIssue;
+use LaravelLinear\Notifications\Messages\LinearIssue;
+
+$issue = (new LinearIssue)
+  ->title('Issue title')
+  ->message('Issue message');
+
+$user = User::first();
+$user->notify(new NewLinearIssue($issue));
+```
+
+### Using the notification channel
+
+### Change the settings.
+
+When you go to `your-domain.test/linear/auth` after you've connected to linear you will be able to change the config.
+
+## Updating
+
+When you install a new version of this package via Composer it might be helpfull to run the update command so all the views and assets are up to date. This command will publish the latest assets for this package and publish new components if they are available.
+
+```bash
+php artisan linear:update
+```
+
+## Linear
+
+Here are some documentation pages from Linear that might be helpfull.
+
+[https://developers.linear.app/docs/oauth/authentication](https://developers.linear.app/docs/oauth/authentication)
+[https://developers.linear.app/docs/oauth/oauth-actor-authorization](https://developers.linear.app/docs/oauth/oauth-actor-authorization)
 
 ## Testing
 
@@ -85,8 +118,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
-- [All Contributors](../../contributors)
+-   [Stef van Esch](https://github.com/marshmallow-packages)
+-   [All Contributors](../../contributors)
 
 ## License
 

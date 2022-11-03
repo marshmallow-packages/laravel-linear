@@ -1,0 +1,27 @@
+/**
+ * This injects Tailwind's base styles, which is a combination of
+ * Normalize.css and some additional base styles.
+ *
+ * You can see the styles here:
+ * https://unpkg.com/tailwindcss/dist/base.css
+ */
+@import "tailwindcss/base";
+/* @import "./custom-styles.css"; */
+/* @import "./custom-fonts.css"; */
+
+/**
+ * This injects any component classes registered by plugins.
+ */
+
+@import "tailwindcss/components";
+/* @import "./custom-components.css"; */
+
+/**
+ * This injects all of Tailwind's utility classes, generated based on your
+ * config file.
+ */
+@import "tailwindcss/utilities";
+/* @import "./custom-utilities.css"; */
+
+/* @import "/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles"; */
+/* @import "../../vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/src/styles.css"; */
