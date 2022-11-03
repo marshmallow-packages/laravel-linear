@@ -2,10 +2,10 @@
 
 namespace LaravelLinear\Notifications;
 
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use LaravelLinear\Models\LinearToken;
-use Illuminate\Notifications\Notification;
 use LaravelLinear\Notifications\Messages\LinearIssue;
 
 class LinearChannel
@@ -51,7 +51,7 @@ class LinearChannel
         });
 
         $query = 'mutation IssueCreate {
-            issueCreate(input: {' . $input_string . '}) {
+            issueCreate(input: {'.$input_string.'}) {
                     success
                     issue {
                         id
@@ -67,8 +67,8 @@ class LinearChannel
             $query = '
             mutation{
             attachmentCreate(input:{
-                issueId: "' . $issue_id . '"
-                url: "' . $path . '"
+                issueId: "'.$issue_id.'"
+                url: "'.$path.'"
             }){
                 success
                 attachment {
