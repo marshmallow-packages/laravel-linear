@@ -1,6 +1,6 @@
 .idea
 .phpunit.result.cache
-build
+/build
 composer.lock
 coverage
 docs
