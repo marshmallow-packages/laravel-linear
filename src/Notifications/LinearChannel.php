@@ -36,22 +36,15 @@ class LinearChannel
 
         $client = Http::withToken($token->access_token)->withHeaders($headers);
 
-        $input_string = '';
-
-        collect([
-            'teamId' => $token->team_id,
-            'projectId' => $token->project_id,
-            'title' => $issue->getTitle(),
-            'description' => $issue->getMessage(),
-            'createAsUser' => $issue->getSubmitter(),
-        ])->reject(function ($value) {
-            return $value == null;
-        })->each(function ($value, $key) use (&$input_string) {
-            $input_string .= "{$key}: \"{$value}\"\n";
-        });
-
-        $query = 'mutation IssueCreate {
-            issueCreate(input: {'.$input_string.'}) {
+        $query = '
+        mutation IssueCreate {
+            issueCreate(input: {
+                teamId: "' . $token->team_id . '"
+                projectId: "' . $token->project_id . '"
+                title: "' . $issue->getTitle() . '"
+                description: "' . $issue->getMessage() . '"
+                createAsUser: "' . $issue->getSubmitter() . '"
+            }) {
                     success
                     issue {
                         id
@@ -60,6 +53,7 @@ class LinearChannel
                 }
             }';
 
+
         $response = $client->post($url, ['query' => $query]);
         $issue_id = Arr::get($response->json(), 'data.issueCreate.issue.id');
 
@@ -67,9 +61,9 @@ class LinearChannel
             $query = '
             mutation{
             attachmentCreate(input:{
-                issueId: "'.$issue_id.'"
+                issueId: "' . $issue_id . '"
                 title: "Issue Attachment"
-                url: "'.$path.'"
+                url: "' . $path . '"
             }){
                 success
                 attachment {

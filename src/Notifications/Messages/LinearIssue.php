@@ -33,7 +33,8 @@ class LinearIssue
 
     public function getMessage()
     {
-        return $this->message;
+        $parts = preg_split("/\r\n|\n|\r/", $this->message);
+        return join("\\n", $parts);
     }
 
     public function submitter($submitter)
@@ -45,7 +46,7 @@ class LinearIssue
 
     public function getSubmitter()
     {
-        return $this->submitter;
+        return $this->submitter ?? __('Anonymous');
     }
 
     public function attachment($path)
