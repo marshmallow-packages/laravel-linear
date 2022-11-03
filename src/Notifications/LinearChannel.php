@@ -51,7 +51,7 @@ class LinearChannel
         });
 
         $query = 'mutation IssueCreate {
-            issueCreate(input: {' . $input_string . '}) {
+            issueCreate(input: {'.$input_string.'}) {
                     success
                     issue {
                         id
@@ -64,13 +64,12 @@ class LinearChannel
         $issue_id = Arr::get($response->json(), 'data.issueCreate.issue.id');
 
         $issue->getAttachments()->each(function ($path) use ($issue_id, $url, $query, $client) {
-
             $query = '
             mutation{
             attachmentCreate(input:{
-                issueId: "' . $issue_id . '"
+                issueId: "'.$issue_id.'"
                 title: "Issue Attachment"
-                url: "' . $path . '"
+                url: "'.$path.'"
             }){
                 success
                 attachment {
