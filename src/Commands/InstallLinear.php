@@ -24,7 +24,7 @@ class InstallLinear extends Command
 
         Artisan::call('vendor:publish', [
             '--provider' => ComponentsServiceProvider::class,
-            '--force' => true
+            '--force' => true,
         ], $this->output);
 
         $this->comment('Installation is ready!');

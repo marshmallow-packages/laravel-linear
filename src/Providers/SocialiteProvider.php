@@ -3,19 +3,22 @@
 namespace LaravelLinear\Providers;
 
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use LaravelLinear\Models\LinearToken;
 use Laravel\Socialite\Two\AbstractProvider;
-use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\InvalidStateException;
+use Laravel\Socialite\Two\ProviderInterface;
+use Laravel\Socialite\Two\User;
+use LaravelLinear\Models\LinearToken;
 
 class SocialiteProvider extends AbstractProvider implements ProviderInterface
 {
     protected $scopeSeparator = ',';
+
     protected $scopes = ['read', 'write'];
+
     protected $stateless = true;
+
     protected $parameters = ['actor' => 'application'];
 
     protected function getAuthUrl($state)
@@ -43,6 +46,7 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
 
         if ($response->successful()) {
             LinearToken::where('access_token', $token)->delete();
+
             return true;
         }
 
@@ -103,7 +107,7 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
         $user = Auth::user();
 
         $old_linear_token = LinearToken::where([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ])->whereNot('access_token', $token)->latest()->first();
 
         if ($old_linear_token) {
@@ -125,7 +129,6 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
             'headers' => ['Content-Type' => 'application/json'],
         ];
 
-
         $query = 'query Organization {
             organization {
                 id
@@ -145,7 +148,7 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
             }
         }';
 
-        $response =  Http::withToken($token)->post($this->getBaseUrl(), ['query' => $query]);
+        $response = Http::withToken($token)->post($this->getBaseUrl(), ['query' => $query]);
         $data = $response->json();
 
         if ($response->failed()) {

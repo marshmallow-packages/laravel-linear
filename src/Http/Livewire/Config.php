@@ -2,25 +2,30 @@
 
 namespace LaravelLinear\Http\Livewire;
 
-use Livewire\Component;
-use LaravelLinear\Models\LinearToken;
-use Laravel\Socialite\Facades\Socialite;
-use LaravelLinear\Providers\SocialiteProvider;
 use Illuminate\Support\Facades\Auth as AuthFacade;
+use Laravel\Socialite\Facades\Socialite;
+use LaravelLinear\Models\LinearToken;
+use LaravelLinear\Providers\SocialiteProvider;
+use Livewire\Component;
 
 class Config extends Component
 {
     public LinearToken $linear_token;
+
     private SocialiteProvider $driver;
 
     public $linear_data;
 
     public $organization_options;
+
     public $team_options;
+
     public $project_options;
 
     public $organization;
+
     public $team;
+
     public $project;
 
     protected $listeners = [
@@ -40,7 +45,7 @@ class Config extends Component
         }
 
         if ($this->organization && $this->team) {
-            $this->project_options  = $teams[$this->team]['projects'];
+            $this->project_options = $teams[$this->team]['projects'];
         }
 
         return view('linear::livewire.config')->layout('linear::layout');
@@ -63,7 +68,6 @@ class Config extends Component
         $this->project = $this->linear_token->project_id;
     }
 
-
     public function saveData()
     {
         $this->linear_token->update([
@@ -85,7 +89,7 @@ class Config extends Component
     {
         $organiation_data = $this->driver->getOrganizationData($this->linear_token->access_token);
 
-        if (!$organiation_data || empty($organiation_data)) {
+        if (! $organiation_data || empty($organiation_data)) {
             return;
         }
 
@@ -99,6 +103,7 @@ class Config extends Component
                 return [$team['id'] => $team];
             });
             $organization['teams'] = $teams;
+
             return [$organization['id'] => $organization];
         });
 

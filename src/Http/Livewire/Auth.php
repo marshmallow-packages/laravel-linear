@@ -2,11 +2,11 @@
 
 namespace LaravelLinear\Http\Livewire;
 
-use Livewire\Component;
-use LaravelLinear\Models\LinearToken;
-use Laravel\Socialite\Facades\Socialite;
-use LaravelLinear\Providers\SocialiteProvider;
 use Illuminate\Support\Facades\Auth as AuthFacade;
+use Laravel\Socialite\Facades\Socialite;
+use LaravelLinear\Models\LinearToken;
+use LaravelLinear\Providers\SocialiteProvider;
+use Livewire\Component;
 
 class Auth extends Component
 {
@@ -30,7 +30,7 @@ class Auth extends Component
     public function getLinearData()
     {
         $linear_token = LinearToken::where([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ])->latest()->first();
 
         $this->has_token = false;
@@ -49,6 +49,7 @@ class Auth extends Component
     public function render()
     {
         $this->getLinearData();
+
         return view('linear::livewire.auth')->layout('linear::layout');
     }
 

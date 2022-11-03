@@ -2,11 +2,10 @@
 
 namespace LaravelLinear\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Messages\VoiceMessage;
-use LaravelLinear\Notifications\LinearChannel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
 use LaravelLinear\Notifications\Messages\LinearIssue;
 
 class NewLinearIssue extends Notification implements ShouldQueue
