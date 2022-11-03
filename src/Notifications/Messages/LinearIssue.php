@@ -10,6 +10,8 @@ class LinearIssue
 
     protected $submitter;
 
+    protected $attachments = [];
+
     public function title($title)
     {
         $this->title = $title;
@@ -44,5 +46,17 @@ class LinearIssue
     public function getSubmitter()
     {
         return $this->submitter;
+    }
+
+    public function attachment($path)
+    {
+        $this->attachments[] = $path;
+
+        return $this;
+    }
+
+    public function getAttachments()
+    {
+        return collect($this->attachments);
     }
 }
