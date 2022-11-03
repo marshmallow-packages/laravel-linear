@@ -2,13 +2,13 @@
 
 namespace LaravelLinear;
 
-use Livewire\Livewire;
+use LaravelLinear\Commands\InstallLinear;
+use LaravelLinear\Commands\UpdateLinear;
 use LaravelLinear\Http\Livewire\Auth;
 use LaravelLinear\Http\Livewire\Config;
-use Spatie\LaravelPackageTools\Package;
-use LaravelLinear\Commands\UpdateLinear;
-use LaravelLinear\Commands\InstallLinear;
 use LaravelLinear\Providers\SocialiteProvider;
+use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelLinearServiceProvider extends PackageServiceProvider
@@ -33,7 +33,7 @@ class LaravelLinearServiceProvider extends PackageServiceProvider
             ]);
 
         $this->publishes([
-            __DIR__ . '/../public/build' => public_path('marshmallow/linear'),
+            __DIR__.'/../public/build' => public_path('marshmallow/linear'),
         ], 'linear-assets');
     }
 
@@ -45,6 +45,7 @@ class LaravelLinearServiceProvider extends PackageServiceProvider
             'linear',
             function ($app) use ($socialite) {
                 $config = $app['config']['linear']['service'];
+
                 return $socialite->buildProvider(SocialiteProvider::class, $config);
             }
         );

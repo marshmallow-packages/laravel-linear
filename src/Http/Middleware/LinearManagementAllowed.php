@@ -2,8 +2,8 @@
 
 namespace LaravelLinear\Http\Middleware;
 
-use Closure;
 use BadMethodCallException;
+use Closure;
 use Illuminate\Http\Request;
 
 class LinearManagementAllowed
@@ -20,7 +20,7 @@ class LinearManagementAllowed
         try {
             abort_unless($request->user()?->allowedToManagerLinearConnection(), 403);
         } catch (BadMethodCallException $e) {
-            throw new BadMethodCallException("You need to implement the `allowedToManagerLinearConnection` method on you Authenticatable model. Please check the readme file for more information.");
+            throw new BadMethodCallException('You need to implement the `allowedToManagerLinearConnection` method on you Authenticatable model. Please check the readme file for more information.');
         }
 
         return $next($request);

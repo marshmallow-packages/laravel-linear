@@ -4,17 +4,17 @@ namespace LaravelLinear\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use LaravelLinear\Models\LinearToken;
 use Laravel\Socialite\Facades\Socialite;
+use LaravelLinear\Models\LinearToken;
 
 class LinearTokenController
 {
     protected $config;
+
     protected $driver;
 
     /**
      * Redirects the user to the Linear authentication page.
-     *
      */
     public function __construct()
     {
@@ -58,7 +58,7 @@ class LinearTokenController
 
         $linear_token = LinearToken::where([
             'access_token' => $access_token,
-            'user_id' => $user_id
+            'user_id' => $user_id,
         ])->latest()->first();
 
         if ($linear_token) {
@@ -67,18 +67,18 @@ class LinearTokenController
             $organizationId = null;
         } else {
             $linear_token = LinearToken::create([
-                'access_type' => implode(",", $socialite_user->approvedScopes),
+                'access_type' => implode(',', $socialite_user->approvedScopes),
                 'user_id' => $user_id,
                 'organization_id' => $organizationId,
                 'team_id' => $teamId,
                 'project_id' => $projectId,
                 'access_token' => $access_token,
-                'token_type' => "Bearer",
+                'token_type' => 'Bearer',
                 'expires_at' => $expires_at,
             ]);
         }
 
-        if (!$linear_token) {
+        if (! $linear_token) {
             return redirect()->back();
         }
 

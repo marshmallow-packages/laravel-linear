@@ -5,12 +5,15 @@ namespace LaravelLinear\Notifications\Messages;
 class LinearIssue
 {
     protected $title;
+
     protected $message;
+
     protected $submitter;
 
     public function title($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -22,6 +25,7 @@ class LinearIssue
     public function message($message)
     {
         $this->message = $message;
+
         return $this;
     }
 
@@ -33,6 +37,7 @@ class LinearIssue
     public function submitter($submitter)
     {
         $this->submitter = $submitter;
+
         return $this;
     }
 
