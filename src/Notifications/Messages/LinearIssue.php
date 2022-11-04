@@ -2,13 +2,19 @@
 
 namespace LaravelLinear\Notifications\Messages;
 
+use Illuminate\Database\Eloquent\Model;
+
 class LinearIssue
 {
+    protected $label;
+
     protected $title;
 
     protected $message;
 
     protected $submitter;
+
+    protected $issue_model;
 
     protected $attachments = [];
 
@@ -22,6 +28,18 @@ class LinearIssue
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function label($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
     }
 
     public function message($message)
@@ -59,5 +77,16 @@ class LinearIssue
     public function getAttachments()
     {
         return collect($this->attachments);
+    }
+
+    public function issueModel(Model $issue_model)
+    {
+        $this->issue_model = $issue_model;
+        return $this;
+    }
+
+    public function getIssueModel()
+    {
+        return $this->issue_model;
     }
 }

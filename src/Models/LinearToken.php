@@ -13,6 +13,10 @@ class LinearToken extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -36,6 +36,8 @@ class LinearChannel
 
         $client = Http::withToken($token->access_token)->withHeaders($headers);
 
+        $label = $issue->getLabel() ? 'labelIds: "' . $issue->getLabel() . '"' : '';
+
         $query = '
         mutation IssueCreate {
             issueCreate(input: {
@@ -44,6 +46,7 @@ class LinearChannel
                 title: "' . $issue->getTitle() . '"
                 description: "' . $issue->getMessage() . '"
                 createAsUser: "' . $issue->getSubmitter() . '"
+                ' . $label . '
             }) {
                     success
                     issue {
@@ -56,6 +59,13 @@ class LinearChannel
 
         $response = $client->post($url, ['query' => $query]);
         $issue_id = Arr::get($response->json(), 'data.issueCreate.issue.id');
+
+        if ($issue_model = $issue->getIssueModel()) {
+            $issue_model->update([
+                'issue_id' => $issue_id,
+            ]);
+        }
+
 
         $issue->getAttachments()->each(function ($path) use ($issue_id, $url, $query, $client) {
             $query = '

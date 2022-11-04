@@ -148,9 +148,32 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
         $data = $response->json();
 
         if ($response->failed()) {
-            throw (new \Exception($data['error_description']));
+            throw (new \Exception(Arr::get($data, 'errors.0.message')));
         }
 
         return $data['data'];
+    }
+
+    public function getOrganizationIssueLabels($token)
+    {
+        $query = '
+            query IssueLabels {
+                issueLabels {
+                    nodes {
+                    id
+                    name
+                    description
+                    }
+                }
+            }';
+
+        $response = Http::withToken($token)->post($this->getBaseUrl(), ['query' => $query]);
+        $data = $response->json();
+
+        $labels = collect();
+        foreach (Arr::get($data, 'data.issueLabels.nodes') as $label) {
+            $labels->push($label);
+        }
+        return $labels;
     }
 }

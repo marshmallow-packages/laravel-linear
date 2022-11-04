@@ -88,8 +88,13 @@ class Config extends Component
     protected function getLinearData()
     {
         $organiation_data = $this->driver->getOrganizationData($this->linear_token->access_token);
+        $labels = $this->driver->getOrganizationIssueLabels($this->linear_token->access_token);
 
-        if (! $organiation_data || empty($organiation_data)) {
+        $this->linear_token->update([
+            'tags' => $labels->toArray(),
+        ]);
+
+        if (!$organiation_data || empty($organiation_data)) {
             return;
         }
 

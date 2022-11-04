@@ -25,7 +25,10 @@ class LaravelLinearServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasRoutes('web')
-            ->hasMigrations(['create_linear_table'])
+            ->hasMigrations([
+                'create_linear_table',
+                'create_tags_column',
+            ])
             ->runsMigrations()
             ->hasCommands([
                 InstallLinear::class,
