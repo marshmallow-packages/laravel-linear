@@ -56,7 +56,6 @@ class LinearChannel
                 }
             }';
 
-
         $response = $client->post($url, ['query' => $query]);
         $issue_id = Arr::get($response->json(), 'data.issueCreate.issue.id');
 

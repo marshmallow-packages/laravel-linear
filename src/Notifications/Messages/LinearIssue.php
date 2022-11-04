@@ -52,7 +52,8 @@ class LinearIssue
     public function getMessage()
     {
         $parts = preg_split("/\r\n|\n|\r/", $this->message);
-        return join("\\n", $parts);
+
+        return implode('\\n', $parts);
     }
 
     public function submitter($submitter)
