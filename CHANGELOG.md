@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-linear` will be documented in this file.
 
+## v1.2.0 - 2022-11-04
+
+**Full Changelog**: https://github.com/marshmallow-packages/laravel-linear/compare/v1.1.2...v1.2.0
+
 ## v1.1.2 - 2022-11-03
 
 **Full Changelog**: https://github.com/marshmallow-packages/laravel-linear/compare/v1.1.1...v1.1.2
