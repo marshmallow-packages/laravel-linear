@@ -36,17 +36,17 @@ class LinearChannel
 
         $client = Http::withToken($token->access_token)->withHeaders($headers);
 
-        $label = $issue->getLabel() ? 'labelIds: "' . $issue->getLabel() . '"' : '';
+        $label = $issue->getLabel() ? 'labelIds: "'.$issue->getLabel().'"' : '';
 
         $query = '
         mutation IssueCreate {
             issueCreate(input: {
-                teamId: "' . $token->team_id . '"
-                projectId: "' . $token->project_id . '"
-                title: "' . $issue->getTitle() . '"
-                description: "' . $issue->getMessage() . '"
-                createAsUser: "' . $issue->getSubmitter() . '"
-                ' . $label . '
+                teamId: "'.$token->team_id.'"
+                projectId: "'.$token->project_id.'"
+                title: "'.$issue->getTitle().'"
+                description: "'.$issue->getMessage().'"
+                createAsUser: "'.$issue->getSubmitter().'"
+                '.$label.'
             }) {
                     success
                     issue {
@@ -65,14 +65,13 @@ class LinearChannel
             ]);
         }
 
-
         $issue->getAttachments()->each(function ($path) use ($issue_id, $url, $query, $client) {
             $query = '
             mutation{
             attachmentCreate(input:{
-                issueId: "' . $issue_id . '"
+                issueId: "'.$issue_id.'"
                 title: "Issue Attachment"
-                url: "' . $path . '"
+                url: "'.$path.'"
             }){
                 success
                 attachment {

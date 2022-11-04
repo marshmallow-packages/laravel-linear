@@ -174,6 +174,7 @@ class SocialiteProvider extends AbstractProvider implements ProviderInterface
         foreach (Arr::get($data, 'data.issueLabels.nodes') as $label) {
             $labels->push($label);
         }
+
         return $labels;
     }
 }

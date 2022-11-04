@@ -83,6 +83,7 @@ class LinearIssue
     public function issueModel(Model $issue_model)
     {
         $this->issue_model = $issue_model;
+
         return $this;
     }
 

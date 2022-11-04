@@ -94,7 +94,7 @@ class Config extends Component
             'tags' => $labels->toArray(),
         ]);
 
-        if (!$organiation_data || empty($organiation_data)) {
+        if (! $organiation_data || empty($organiation_data)) {
             return;
         }
 
