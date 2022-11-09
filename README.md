@@ -9,7 +9,7 @@ This package will allow you to connect your Laraval application with Linear via 
 You can install the package via composer:
 
 ```bash
-composer require laravellinear/laravel-linear
+composer require marshmallow/laravel-linear
 ```
 
 After you've installed the package you can run the installation command. This command will publish the mandatory migrations and publish components and assets that are needed to show the beautifull Linear pages.
