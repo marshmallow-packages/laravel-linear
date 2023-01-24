@@ -2,10 +2,10 @@
 
 namespace LaravelLinear\Notifications;
 
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use LaravelLinear\Models\LinearToken;
+use Illuminate\Notifications\Notification;
 use LaravelLinear\Notifications\Messages\LinearIssue;
 
 class LinearChannel
@@ -36,17 +36,21 @@ class LinearChannel
 
         $client = Http::withToken($token->access_token)->withHeaders($headers);
 
-        $label = $issue->getLabel() ? 'labelIds: "'.$issue->getLabel().'"' : '';
+        $label = $issue->getLabel() ? 'labelIds: "' . $issue->getLabel() . '"' : '';
 
         $query = '
         mutation IssueCreate {
             issueCreate(input: {
-                teamId: "'.$token->team_id.'"
-                projectId: "'.$token->project_id.'"
-                title: "'.$issue->getTitle().'"
-                description: "'.$issue->getMessage().'"
-                createAsUser: "'.$issue->getSubmitter().'"
-                '.$label.'
+                teamId: "' . $token->team_id . '"';
+
+        if ($token->project_id) {
+            $query .= 'projectId: "' . $token->project_id . '" ';
+        }
+
+        $query .= 'title: "' . $issue->getTitle() . '"
+                description: "' . $issue->getMessage() . '"
+                createAsUser: "' . $issue->getSubmitter() . '"
+                ' . $label . '
             }) {
                     success
                     issue {
@@ -69,9 +73,9 @@ class LinearChannel
             $query = '
             mutation{
             attachmentCreate(input:{
-                issueId: "'.$issue_id.'"
+                issueId: "' . $issue_id . '"
                 title: "Issue Attachment"
-                url: "'.$path.'"
+                url: "' . $path . '"
             }){
                 success
                 attachment {
