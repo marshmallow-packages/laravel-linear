@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-linear` will be documented in this file.
 
+## v1.4.0 - 2023-02-01
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/marshmallow-packages/laravel-linear/pull/12
+- Added project id to Linear issue and channel by @stefvanesch in https://github.com/marshmallow-packages/laravel-linear/pull/14
+
+**Full Changelog**: https://github.com/marshmallow-packages/laravel-linear/compare/1.3.1...v1.4.0
+
 ## v1.3.0 - 2023-01-17
 
 ### What's Changed
