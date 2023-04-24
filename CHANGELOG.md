@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-linear` will be documented in this file.
 
+## v1.4.1 - 2023-04-24
+
+### What's Changed
+
+- Bump webpack from 5.74.0 to 5.76.1 by @dependabot in https://github.com/marshmallow-packages/laravel-linear/pull/15
+- Message can now be null by @stefvanesch in https://github.com/marshmallow-packages/laravel-linear/pull/18
+
+**Full Changelog**: https://github.com/marshmallow-packages/laravel-linear/compare/v1.4.0...v1.4.1
+
 ## v1.4.0 - 2023-02-01
 
 ### What's Changed
