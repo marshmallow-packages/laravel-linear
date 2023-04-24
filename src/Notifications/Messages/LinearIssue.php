@@ -56,7 +56,7 @@ class LinearIssue
         return $this->label;
     }
 
-    public function message(string $message): self
+    public function message(string|null $message = null): self
     {
         $this->message = $message;
 
