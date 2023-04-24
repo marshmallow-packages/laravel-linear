@@ -25,7 +25,6 @@ class LinearTokenController
     /**
      * Get the redirect for the given Socialite provider.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function redirectToProvider(Request $request)
@@ -38,7 +37,6 @@ class LinearTokenController
     /**
      * Attempt to log the user in via the provider user returned from Socialite.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  string  $provider
      * @return mixed
      */
