@@ -10,7 +10,7 @@
         "autoprefixer": "^10.4.12",
         "cross-env": "^7.0.3",
         "laravel-vite-plugin": "^1.2.0",
-        "postcss": "^8.4.31",
+        "postcss": "^8.5.14",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.55.0",
         "sass-loader": "^13.1.0",
