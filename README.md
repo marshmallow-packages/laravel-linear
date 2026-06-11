@@ -1,6 +1,12 @@
+![alt text](https://marshmallow.dev/cdn/media/logo-red-237x46.png "marshmallow.")
+
 # Connect your Laravel application with Linear
 
-This package will allow you to connect your Laraval application with Linear via a Linear OAuth App.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/marshmallow/laravel-linear.svg?style=flat-square)](https://packagist.org/packages/marshmallow/laravel-linear)
+[![Tests](https://img.shields.io/github/actions/workflow/status/marshmallow-packages/laravel-linear/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/marshmallow-packages/laravel-linear/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/marshmallow/laravel-linear.svg?style=flat-square)](https://packagist.org/packages/marshmallow/laravel-linear)
+
+This package will allow you to connect your Laravel application with Linear via a Linear OAuth App.
 
 <img src="/resources/images/linear-preview.png">
 
@@ -12,21 +18,37 @@ You can install the package via composer:
 composer require marshmallow/laravel-linear
 ```
 
-After you've installed the package you can run the installation command. This command will publish the mandatory migrations and publish components and assets that are needed to show the beautifull Linear pages.
+After you've installed the package you can run the installation command. This command will publish the mandatory migrations and publish components and assets that are needed to show the beautiful Linear pages.
 
 ```bash
 php artisan linear:install
 ```
 
+Optionally, you can publish the config file with:
+
+```bash
+php artisan vendor:publish --tag="laravel-linear-config"
+```
+
 ### Create your Linear OAuth App
 
-Go to settings in you Linear account. In the `account menu`, you will find the API button. Once you click on `API` you will be able to create an `OAuth application`. Click on `Create New`.
+Go to settings in your Linear account. In the `account menu`, you will find the API button. Once you click on `API` you will be able to create an `OAuth application`. Click on `Create New`.
 
-Fill in all the field. The most importent part is the Callback URLs. You need to add you callback URL like `your-domain.test/linear/oauth2/callback`. Add the callback url for all your domains. Local, Beta and Production so it will work on all your sites.
+Fill in all the fields. The most important part is the Callback URLs. You need to add your callback URL like `your-domain.test/linear/oauth2/callback`. Add the callback url for all your domains. Local, Beta and Production so it will work on all your sites.
 
-When you've create your app, you will get a `Client id` and a `Client secret`. Copy these, we need them later!
+When you've created your app, you will get a `Client id` and a `Client secret`. Copy these, we need them later!
 
 <img src="/resources/images/linear-oauth-app.png">
+
+## Configuration
+
+The config file (`config/linear.php`) exposes the credentials for your Linear OAuth application. All values are read from your `.env` file:
+
+| Key | Default | Description |
+| --- | --- | --- |
+| `service.client_id` | `env('LINEAR_CLIENT_ID')` | The Client id of your Linear OAuth application. |
+| `service.client_secret` | `env('LINEAR_CLIENT_SECRET')` | The Client secret of your Linear OAuth application. |
+| `service.redirect` | `env('LINEAR_REDIRECT_URI', '/linear/oauth2/callback')` | The OAuth callback path that handles the Linear redirect. |
 
 ## Usage
 
@@ -60,9 +82,11 @@ class User extends Authenticatable
 }
 ```
 
-Go to `your-domain.test/linear/auth` and follow the steps to connect your Laraval application to Linear. After you've done this you will be able to connect a company, team and project.
+Go to `your-domain.test/linear/auth` and follow the steps to connect your Laravel application to Linear. After you've done this you will be able to connect a company, team and project.
 
 ### Submit your first issue
+
+Build a `LinearIssue` message and send it to a notifiable via the `NewLinearIssue` notification:
 
 ```php
 use App\Models\User;
@@ -77,15 +101,30 @@ $user = User::first();
 $user->notify(new NewLinearIssue($issue));
 ```
 
+The `LinearIssue` message supports the following fluent methods:
+
+```php
+(new LinearIssue)
+  ->title('Issue title')        // required, the issue title
+  ->message('Issue message')    // the issue description
+  ->projectId('project-uuid')   // assign the issue to a Linear project
+  ->label('Bug')                // attach a label to the issue
+  ->submitter('Jane Doe')       // who submitted the issue (defaults to "Anonymous")
+  ->attachment('/path/to/file') // add an attachment (call multiple times for more)
+  ->issueModel($model);         // relate the issue to an Eloquent model
+```
+
 ### Using the notification channel
 
-### Change the settings.
+The `NewLinearIssue` notification routes through the package's `LinearChannel` and returns the `LinearIssue` message from its `toLinear()` method. Any notifiable that uses Laravel's `Notifiable` trait can send a Linear issue by calling `$notifiable->notify(new NewLinearIssue($issue))` as shown above — no extra channel registration is required.
 
-When you go to `your-domain.test/linear/auth` after you've connected to linear you will be able to change the config.
+### Change the settings
+
+When you go to `your-domain.test/linear/auth` after you've connected to Linear you will be able to change the config.
 
 ## Updating
 
-When you install a new version of this package via Composer it might be helpfull to run the update command so all the views and assets are up to date. This command will publish the latest assets for this package and publish new components if they are available.
+When you install a new version of this package via Composer it might be helpful to run the update command so all the views and assets are up to date. This command will publish the latest assets for this package and publish new components if they are available.
 
 ```bash
 php artisan linear:update
@@ -93,7 +132,7 @@ php artisan linear:update
 
 ## Linear
 
-Here are some documentation pages from Linear that might be helpfull.
+Here are some documentation pages from Linear that might be helpful.
 
 [https://developers.linear.app/docs/oauth/authentication](https://developers.linear.app/docs/oauth/authentication)
 [https://developers.linear.app/docs/oauth/oauth-actor-authorization](https://developers.linear.app/docs/oauth/oauth-actor-authorization)
@@ -114,14 +153,16 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please report security vulnerabilities by email rather than via the public issue tracker.
 
 ## Credits
 
 -   [Stef van Esch](https://github.com/stefvanesch)
 -   [Lars Kort](https://github.com/LTKort)
--   [All Contributors](../../contributors)
+-   [All Contributors](https://github.com/marshmallow-packages/laravel-linear/contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+</content>
+</invoke>
