@@ -14,8 +14,7 @@ class NewLinearIssue extends Notification implements ShouldQueue
 
     public function __construct(
         protected LinearIssue $issue
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification channels.
