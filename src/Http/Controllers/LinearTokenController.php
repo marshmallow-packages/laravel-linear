@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use LaravelLinear\Models\LinearToken;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LinearTokenController
 {
@@ -25,7 +26,7 @@ class LinearTokenController
     /**
      * Get the redirect for the given Socialite provider.
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function redirectToProvider(Request $request)
     {
