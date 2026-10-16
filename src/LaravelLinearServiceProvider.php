@@ -43,15 +43,18 @@ class LaravelLinearServiceProvider extends PackageServiceProvider
     public function boot()
     {
         parent::boot();
-        $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
-        $socialite->extend(
-            'linear',
-            function ($app) use ($socialite) {
-                $config = $app['config']['linear']['service'];
 
-                return $socialite->buildProvider(SocialiteProvider::class, $config);
-            }
-        );
+        if ($this->app->bound('Laravel\Socialite\Contracts\Factory')) {
+            $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
+            $socialite->extend(
+                'linear',
+                function ($app) use ($socialite) {
+                    $config = $app['config']['linear']['service'];
+
+                    return $socialite->buildProvider(SocialiteProvider::class, $config);
+                }
+            );
+        }
 
         Livewire::component('linear::auth', Auth::class);
         Livewire::component('linear::config', Config::class);
